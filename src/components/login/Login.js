@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Net from '../../common/Net';
+import Token from '../../common/Token';
 
 class Login extends Component {
 
@@ -11,6 +13,7 @@ class Login extends Component {
         super(props, context);
 
         this.state = {
+            redirect: false,
             loginInfo: {
                 username: '',
                 password: ''
@@ -22,32 +25,44 @@ class Login extends Component {
     }
 
     logIn() {
-        Net.get('http://ip.jsontest.com/')
-            .then((body) => {
+        Net.fetchToken({
+            username: this.state.loginInfo.username,
+            password: this.state.loginInfo.password
+        }).then((token) => {
+            Token.save(token);
+            this.setState({
+                redirect: true
             });
-        Net.post('https://jsonplaceholder.typicode.com/posts', {
-            userId: 1,
-            id: 1,
-            title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-            body: "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto"
         });
     }
 
     fieldValueChange(event, value) {
-        const field = event.target.name;
-        let loginInfo = this.state.loginInfo;
+        var field = event.target.name;
+        var loginInfo = this.state.loginInfo;
         loginInfo[field] = value;
         this.setState({
             loginInfo
         });
     }
 
+    componentWillMount() {
+        if (Token.exists()) {
+            this.setState({
+                redirect: true
+            });
+        }
+    }
+
     render() {
+        if (this.state.redirect) {
+            return (<Redirect to='/' />);
+        }
+
         return (
             <div className="login">
               <Paper>
                 <TextField name="username" value={ this.state.loginInfo.username } floatingLabelText="Username" onChange={ this.fieldValueChange } fullWidth={ true } />
-                <TextField name="password" value={ this.state.loginInfo.password } floatingLabelText="Password" onChange={ this.fieldValueChange } fullWidth={ true } />
+                <TextField name="password" type="password" value={ this.state.loginInfo.password } floatingLabelText="Password" onChange={ this.fieldValueChange } fullWidth={ true } />
                 <RaisedButton label="Login" primary={ true } onClick={ this.logIn } />
               </Paper>
             </div>
