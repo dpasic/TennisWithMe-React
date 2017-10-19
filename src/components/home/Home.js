@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { PieChart, Pie, Cell } from 'recharts';
 
 import Net from '../../common/Net';
 import Token from '../../common/Token';
 
+// https://material.io/guidelines/style
 class Home extends Component {
 
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            redirect: false
+            redirect: false,
+            pieData: []
         };
     }
 
@@ -23,8 +26,24 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        if (this.state.redirect) {
+            return;
+        }
+
         Net.get('api/IdentityPlayer').then((player) => {
-            console.log(player);
+            var pieData = [{
+                name: 'Wins',
+                value: player.WonGames,
+                color: '#4CAF50'
+            }, {
+                name: 'Loses',
+                value: player.LostGames,
+                color: '#F44336'
+            }];
+
+            this.setState({
+                pieData: pieData
+            });
         });
     }
 
@@ -35,7 +54,11 @@ class Home extends Component {
 
         return (
             <div className="home">
-              <h2>Home</h2>
+              <PieChart width={ 730 } height={ 250 }>
+                <Pie data={ this.state.pieData } dataKey="value" nameKey="name" legendType="line" label={ true } cx="50%" cy="50%" outerRadius={ 50 } fill="#8884d8">
+                  { this.state.pieData.map((item) => <Cell key={ item.name } fill={ item.color } />) }
+                </Pie>
+              </PieChart>
             </div>
             );
     }
