@@ -68,6 +68,21 @@ class Net {
                 });
         });
     }
+
+    static revokeToken() {
+        return new Promise((resolve, reject) => {
+            fetch(this.getUrl('api/account/logout'), {
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': this.getAuthHeader()
+                })
+            })
+                .then((response) => {
+                    resolve();
+                });
+        });
+    }
 }
 
 export default Net;

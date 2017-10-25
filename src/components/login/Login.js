@@ -63,7 +63,7 @@ class Login extends Component {
               <Paper>
                 <TextField name="username" value={ this.state.loginInfo.username } floatingLabelText="Username" onChange={ this.fieldValueChange } fullWidth={ true } />
                 <TextField name="password" type="password" value={ this.state.loginInfo.password } floatingLabelText="Password" onChange={ this.fieldValueChange } fullWidth={ true } />
-                <RaisedButton label="Login" primary={ true } onClick={ this.logIn } />
+                <RaisedButton label="Log In" primary={ true } onClick={ this.logIn } />
               </Paper>
             </div>
             );
