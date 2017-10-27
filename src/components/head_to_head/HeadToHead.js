@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { PieChart, Pie, Cell } from 'recharts';
-
-import Net from '../../common/Net';
-import Token from '../../common/Token';
 
 class HeadToHead extends Component {
 
@@ -16,7 +12,7 @@ class HeadToHead extends Component {
 
     render() {
         return (
-            <div className="headToHead">
+            <div className="head_to_head">
               <h2>Head to Head</h2>
             </div>
             );
