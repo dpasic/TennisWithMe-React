@@ -7,8 +7,10 @@ import moment from 'moment';
 import Net from '../../common/Net';
 import Colors from '../../common/Colors';
 
+import PlayerInfoCard from '../player_info_card/PlayerInfoCard';
 import WinsLossesOverallPieChart from '../wins_losses_overall_pie_chart/WinsLossesOverallPieChart';
 import WinsLossesDateBarChart from '../wins_losses_date_bar_chart/WinsLossesDateBarChart';
+import MatchCard from '../match_card/MatchCard';
 
 class Profile extends Component {
 
@@ -16,55 +18,57 @@ class Profile extends Component {
         super(props, context);
 
         this.state = {
+            player: {},
             pieData: [],
-            barData: []
+            matches: []
         };
     }
 
     componentDidMount() {
         Net.get('api/IdentityPlayer').then((player) => {
             var pieData = [{
-                key: 1,
                 name: 'Wins',
                 value: player.WonGames,
                 color: Colors.green
             }, {
-                key: 0,
                 name: 'Losses',
                 value: player.LostGames,
                 color: Colors.red
             }];
 
             this.setState({
+                player: player,
                 pieData: pieData
             });
 
-            Net.get('api/Matches/Active').then((matches) => {
-                var barData = [];
-                matches.forEach(function(match) {
-                    var barItem = {
-                        key: match.Id,
+            Net.get('api/Matches/Active').then((activeMatches) => {
+                var matches = [];
+                activeMatches.forEach(function(match) {
+                    var matchItem = {
                         date: moment(match.TimestampPlayed).format('DD/MM/YY'),
-                        fullTime: moment(match.TimestampPlayed).format('DD/MM/YYYY HH:mm'),
+                        fullTime: moment(match.TimestampPlayed).format('DD.MM.YYYY. HH:mm'),
                         opponentName: (match.ChallengerId === player.Id) ? match.OpponentName : match.ChallengerName,
                         winnerName: match.WinnerName,
                         result: match.Result,
-                        city: match.CityPlayed
+                        city: match.CityPlayed,
+                        comment: match.Comment
                     };
 
                     if (player.Id === match.WinnerId) {
-                        barItem.value = 1;
-                        barItem.color = Colors.green;
+                        matchItem.value = 1;
+                        matchItem.resultDescription = 'Won';
+                        matchItem.color = Colors.green;
                     } else {
-                        barItem.value = -1;
-                        barItem.color = Colors.red;
+                        matchItem.value = -1;
+                        matchItem.resultDescription = 'Lost';
+                        matchItem.color = Colors.red;
                     }
 
-                    barData.push(barItem);
+                    matches.push(matchItem);
                 });
 
                 this.setState({
-                    barData: barData
+                    matches: matches
                 });
             });
         });
@@ -75,14 +79,16 @@ class Profile extends Component {
             <div className="profile">
               <Grid>
                 <Row>
-                  <Col sm={ 12 } md={ 3 }>
-                  <WinsLossesOverallPieChart pieData={ this.state.pieData } />
+                  <Col sm={ 12 } md={ 3 } mdPull={ 4 }>
+                  <PlayerInfoCard player={ this.state.player } />
                   </Col>
-                  <Col sm={ 12 } md={ 9 }>
-                  <WinsLossesDateBarChart barData={ this.state.barData } />
+                  <Col sm={ 12 } md={ 9 } mdPull={ 6 }>
+                  <WinsLossesOverallPieChart pieData={ this.state.pieData } />
                   </Col>
                 </Row>
               </Grid>
+              <WinsLossesDateBarChart barData={ this.state.matches } />
+              { this.state.matches.map((match, index) => <MatchCard key={ index } match={ match } />) }
             </div>
             );
     }

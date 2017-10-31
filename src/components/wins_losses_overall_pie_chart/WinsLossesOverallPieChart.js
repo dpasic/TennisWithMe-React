@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Tooltip, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
 
 class WinsLossesOverallPieChart extends Component {
 
@@ -19,13 +19,14 @@ class WinsLossesOverallPieChart extends Component {
 
     render() {
         return (
-            <div className="wins_losses_overall_pie_chart">
+            <div style={ { margin: 15 } } className="wins_losses_overall_pie_chart">
               <ResponsiveContainer width="100%" height={ 200 }>
                 <PieChart>
                   <Pie data={ this.state.pieData } dataKey="value" nameKey="name" legendType="line" label={ true } cx="50%" cy="50%" outerRadius={ 50 }>
-                    { this.state.pieData.map((item) => <Cell key={ item.key } fill={ item.color } />) }
+                    { this.state.pieData.map((item, index) => <Cell key={ index } fill={ item.color } />) }
                   </Pie>
                   <Legend />
+                  <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
             </div>

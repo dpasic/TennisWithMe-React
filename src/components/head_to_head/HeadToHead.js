@@ -9,8 +9,10 @@ import moment from 'moment';
 import Net from '../../common/Net';
 import Colors from '../../common/Colors';
 
+import PlayerInfoCard from '../player_info_card/PlayerInfoCard';
 import WinsLossesOverallPieChart from '../wins_losses_overall_pie_chart/WinsLossesOverallPieChart';
 import WinsLossesDateBarChart from '../wins_losses_date_bar_chart/WinsLossesDateBarChart';
+import MatchCard from '../match_card/MatchCard';
 
 class HeadToHead extends Component {
 
@@ -18,11 +20,12 @@ class HeadToHead extends Component {
         super(props, context);
 
         this.state = {
-            profilePlayer: null,
+            profilePlayer: {},
             friends: [],
             selectedFriendId: null,
+            selectedFriend: {},
             pieData: [],
-            barData: []
+            matches: []
         };
 
         this.handlePlayerChange = this.handlePlayerChange.bind(this);
@@ -30,47 +33,48 @@ class HeadToHead extends Component {
 
     handlePlayerChange(event, index, value) {
         this.setState({
-            selectedFriendId: value
+            selectedFriendId: value,
+            selectedFriend: this.state.friends[index]
         });
 
         var profilePlayer = this.state.profilePlayer;
 
-        Net.get('api/Matches/Active?opponentId=' + value).then((matches) => {
-            var barData = [],
+        Net.get('api/Matches/Active?opponentId=' + value).then((activeMatches) => {
+            var matches = [],
                 wins = 0,
                 losses = 0;
 
-            matches.forEach(function(match) {
-                var barItem = {
-                    key: match.Id,
+            activeMatches.forEach(function(match) {
+                var matchItem = {
                     date: moment(match.TimestampPlayed).format('DD/MM/YY'),
-                    fullTime: moment(match.TimestampPlayed).format('DD/MM/YYYY HH:mm'),
+                    fullTime: moment(match.TimestampPlayed).format('DD.MM.YYYY. HH:mm'),
                     opponentName: (match.ChallengerId === profilePlayer.Id) ? match.OpponentName : match.ChallengerName,
                     winnerName: match.WinnerName,
                     result: match.Result,
-                    city: match.CityPlayed
+                    city: match.CityPlayed,
+                    comment: match.Comment
                 };
 
                 if (profilePlayer.Id === match.WinnerId) {
-                    barItem.value = 1;
-                    barItem.color = Colors.green;
+                    matchItem.value = 1;
+                    matchItem.resultDescription = 'Won';
+                    matchItem.color = Colors.green;
                     wins++;
                 } else {
-                    barItem.value = -1;
-                    barItem.color = Colors.red;
+                    matchItem.value = -1;
+                    matchItem.resultDescription = 'Lost';
+                    matchItem.color = Colors.red;
                     losses++;
                 }
 
-                barData.push(barItem);
+                matches.push(matchItem);
             });
 
             var pieData = [{
-                key: 1,
                 name: 'Wins',
                 value: wins,
                 color: Colors.green
             }, {
-                key: 0,
                 name: 'Losses',
                 value: losses,
                 color: Colors.red
@@ -78,7 +82,7 @@ class HeadToHead extends Component {
 
             this.setState({
                 pieData: pieData,
-                barData: barData
+                matches: matches
             });
         });
     }
@@ -97,21 +101,24 @@ class HeadToHead extends Component {
     }
 
     render() {
+        //TODO: dodaj provjeru jel postoji PlayerInfoCard
         return (
             <div className="head_to_head">
               <SelectField floatingLabelText="Player" value={ this.state.selectedFriendId } onChange={ this.handlePlayerChange }>
-                { this.state.friends.map((friend) => <MenuItem key={ friend.Id } value={ friend.Id } primaryText={ friend.FullName } />) }
+                { this.state.friends.map((friend, index) => <MenuItem key={ index } value={ friend.Id } primaryText={ friend.FullName } />) }
               </SelectField>
               <Grid>
                 <Row>
-                  <Col sm={ 12 } md={ 3 }>
-                  <WinsLossesOverallPieChart pieData={ this.state.pieData } />
+                  <Col sm={ 12 } md={ 3 } mdPull={ 4 }>
+                  <PlayerInfoCard player={ this.state.selectedFriend } />
                   </Col>
-                  <Col sm={ 12 } md={ 9 }>
-                  <WinsLossesDateBarChart barData={ this.state.barData } />
+                  <Col sm={ 12 } md={ 9 } mdPull={ 6 }>
+                  <WinsLossesOverallPieChart pieData={ this.state.pieData } />
                   </Col>
                 </Row>
               </Grid>
+              <WinsLossesDateBarChart barData={ this.state.matches } />
+              { this.state.matches.map((match, index) => <MatchCard key={ index } match={ match } />) }
             </div>
             );
     }

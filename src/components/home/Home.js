@@ -4,6 +4,9 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
+import AccountBox from 'material-ui/svg-icons/action/account-box';
+import CompareArrows from 'material-ui/svg-icons/action/compare-arrows';
+import Input from 'material-ui/svg-icons/action/input';
 
 import Net from '../../common/Net';
 import Token from '../../common/Token';
@@ -11,7 +14,6 @@ import Token from '../../common/Token';
 import Profile from '../profile/Profile';
 import HeadToHead from '../head_to_head/HeadToHead';
 
-// https://material.io/guidelines/style
 class Home extends Component {
 
     constructor(props, context) {
@@ -100,10 +102,10 @@ class Home extends Component {
               { /* Navigation */ }
               <AppBar onLeftIconButtonTouchTap={ this.toggleDrawer } title={ this.state.currentPageCaption } />
               <Drawer docked={ false } open={ this.state.drawerOpen } onRequestChange={ this.onRequestChangeDrawer }>
-                <MenuItem onClick={ this.openProfilePage }>Profile</MenuItem>
-                <MenuItem onClick={ this.openHeadToHeadPage }>Head to Head</MenuItem>
+                <MenuItem leftIcon={ <AccountBox /> } primaryText="Profile" onClick={ this.openProfilePage } />
+                <MenuItem leftIcon={ <CompareArrows /> } primaryText="Head to Head" onClick={ this.openHeadToHeadPage } />
                 <Divider />
-                <MenuItem onClick={ this.logOut }>Log Out</MenuItem>
+                <MenuItem leftIcon={ <Input /> } primaryText="Log Out" onClick={ this.logOut } />
               </Drawer>
               { /* Content */ }
               { content }

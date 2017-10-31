@@ -38,14 +38,19 @@ class WinsLossesDateBarChart extends Component {
     }
 
     render() {
+        var legend = null;
+        if (this.state.barData.length > 0) {
+            legend = <Legend />;
+        }
+
         return (
-            <div className="wins_losses_date_bar_chart">
+            <div style={ { margin: 15 } } className="wins_losses_date_bar_chart">
               <ResponsiveContainer width="100%" height={ 200 }>
                 <BarChart data={ this.state.barData }>
                   <Bar dataKey="value" name="Wins/Losses by date">
-                    { this.state.barData.map((item) => <Cell key={ item.key } fill={ item.color } />) }
+                    { this.state.barData.map((item, index) => <Cell key={ index } fill={ item.color } />) }
                   </Bar>
-                  <Legend />
+                  { legend }
                   <XAxis dataKey="date" />
                   <Tooltip content={ this.renderTooltip } />
                   <ReferenceLine y={ 0 } stroke={ Colors.black } />
