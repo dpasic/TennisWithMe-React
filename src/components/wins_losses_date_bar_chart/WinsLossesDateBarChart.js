@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Cell, Tooltip, Legend, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
+import Paper from 'material-ui/Paper';
 
 import Colors from '../../common/Colors';
 
@@ -22,7 +23,7 @@ class WinsLossesDateBarChart extends Component {
     }
 
     renderTooltip(obj) {
-        if (obj.payload.length > 0) {
+        if (obj && obj.payload && obj.payload.length > 0) {
             var payload = obj.payload[0].payload;
 
             return (
@@ -44,18 +45,20 @@ class WinsLossesDateBarChart extends Component {
         }
 
         return (
-            <div style={ { margin: 15 } } className="wins_losses_date_bar_chart">
-              <ResponsiveContainer width="100%" height={ 200 }>
-                <BarChart data={ this.state.barData }>
-                  <Bar dataKey="value" name="Wins/Losses by date">
-                    { this.state.barData.map((item, index) => <Cell key={ index } fill={ item.color } />) }
-                  </Bar>
-                  { legend }
-                  <XAxis dataKey="date" />
-                  <Tooltip content={ this.renderTooltip } />
-                  <ReferenceLine y={ 0 } stroke={ Colors.black } />
-                </BarChart>
-              </ResponsiveContainer>
+            <div style={ { margin: 5 } } className="wins_losses_date_bar_chart">
+              <Paper>
+                <ResponsiveContainer width="100%" height={ 200 }>
+                  <BarChart data={ this.state.barData }>
+                    <Bar dataKey="value" name="Wins/Losses by date">
+                      { this.state.barData.map((item, index) => <Cell key={ index } fill={ item.color } />) }
+                    </Bar>
+                    { legend }
+                    <XAxis dataKey="date" />
+                    <Tooltip content={ this.renderTooltip } />
+                    <ReferenceLine y={ 0 } stroke={ Colors.black } />
+                  </BarChart>
+                </ResponsiveContainer>
+              </Paper>
             </div>
             );
     }

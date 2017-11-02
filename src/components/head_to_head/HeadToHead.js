@@ -101,24 +101,43 @@ class HeadToHead extends Component {
     }
 
     render() {
-        //TODO: dodaj provjeru jel postoji PlayerInfoCard
         return (
             <div className="head_to_head">
-              <SelectField floatingLabelText="Player" value={ this.state.selectedFriendId } onChange={ this.handlePlayerChange }>
-                { this.state.friends.map((friend, index) => <MenuItem key={ index } value={ friend.Id } primaryText={ friend.FullName } />) }
-              </SelectField>
-              <Grid>
-                <Row>
-                  <Col sm={ 12 } md={ 3 } mdPull={ 4 }>
+              <Grid fluid={ true }>
+                <Row style={ { marginTop: 10 } }>
+                  <Col md={ 12 }>
+                  <SelectField floatingLabelText="Player" value={ this.state.selectedFriendId } onChange={ this.handlePlayerChange }>
+                    { this.state.friends.map((friend, index) => <MenuItem key={ index } value={ friend.Id } primaryText={ friend.FullName } />) }
+                  </SelectField>
+                  </Col>
+                </Row>
+                <Row style={ { marginTop: 10 } }>
+                  <Col sm={ 12 } md={ 3 }>
                   <PlayerInfoCard player={ this.state.selectedFriend } />
                   </Col>
-                  <Col sm={ 12 } md={ 9 } mdPull={ 6 }>
+                  <Col sm={ 12 } md={ 3 }>
                   <WinsLossesOverallPieChart pieData={ this.state.pieData } />
                   </Col>
                 </Row>
+                <Row style={ { marginTop: 10 } }>
+                  <Col md={ 12 }>
+                  <WinsLossesDateBarChart barData={ this.state.matches } />
+                  </Col>
+                </Row>
+                <Row style={ { marginTop: 50 } }>
+                  <Col md={ 12 }>
+                  <h4 style={ { color: '#808080' } }>Matches</h4>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm={ 12 } md={ 6 }>
+                  { this.state.matches.filter((match, index) => index % 2 === 0).map((match, index) => <MatchCard key={ index } match={ match } />) }
+                  </Col>
+                  <Col sm={ 12 } md={ 6 }>
+                  { this.state.matches.filter((match, index) => index % 2 === 1).map((match, index) => <MatchCard key={ index } match={ match } />) }
+                  </Col>
+                </Row>
               </Grid>
-              <WinsLossesDateBarChart barData={ this.state.matches } />
-              { this.state.matches.map((match, index) => <MatchCard key={ index } match={ match } />) }
             </div>
             );
     }
