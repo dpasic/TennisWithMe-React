@@ -93,7 +93,7 @@ class Profile extends Component {
                 </Row>
                 <Row style={ { marginTop: 50 } }>
                   <Col md={ 12 }>
-                  <h4 style={ { color: '#808080' } }>Matches</h4>
+                  <h4 style={ { color: '#8D8D8D' } }>Matches</h4>
                   </Col>
                 </Row>
                 <Row>

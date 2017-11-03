@@ -101,6 +101,18 @@ class HeadToHead extends Component {
     }
 
     render() {
+        var playerInfoCard = null,
+            winsLossesOverallPieChart = null,
+            winsLossesDateBarChart = null,
+            matchesCaption = null;
+
+        if (this.state.selectedFriendId != null) {
+            playerInfoCard = <PlayerInfoCard player={ this.state.selectedFriend } />;
+            winsLossesOverallPieChart = <WinsLossesOverallPieChart pieData={ this.state.pieData } />;
+            winsLossesDateBarChart = <WinsLossesDateBarChart barData={ this.state.matches } />;
+            matchesCaption = <h4 style={ { color: '#8D8D8D' } }>Matches</h4>;
+        }
+
         return (
             <div className="head_to_head">
               <Grid fluid={ true }>
@@ -113,20 +125,20 @@ class HeadToHead extends Component {
                 </Row>
                 <Row style={ { marginTop: 10 } }>
                   <Col sm={ 12 } md={ 3 }>
-                  <PlayerInfoCard player={ this.state.selectedFriend } />
+                  { playerInfoCard }
                   </Col>
                   <Col sm={ 12 } md={ 3 }>
-                  <WinsLossesOverallPieChart pieData={ this.state.pieData } />
+                  { winsLossesOverallPieChart }
                   </Col>
                 </Row>
                 <Row style={ { marginTop: 10 } }>
                   <Col md={ 12 }>
-                  <WinsLossesDateBarChart barData={ this.state.matches } />
+                  { winsLossesDateBarChart }
                   </Col>
                 </Row>
                 <Row style={ { marginTop: 50 } }>
                   <Col md={ 12 }>
-                  <h4 style={ { color: '#808080' } }>Matches</h4>
+                  { matchesCaption }
                   </Col>
                 </Row>
                 <Row>
