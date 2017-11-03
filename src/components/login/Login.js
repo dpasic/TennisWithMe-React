@@ -10,6 +10,21 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Net from '../../common/Net';
 import Token from '../../common/Token';
 
+const styles = {
+    signIn: {
+        padding: '6px 10% 0 10%',
+        height: '100%',
+        title: {
+            color: '#8D8D8D',
+            textAlign: 'center'
+        }
+    },
+    loginButton: {
+        margin: '30px 0 30px 0',
+        width: '100%'
+    }
+};
+
 class Login extends Component {
 
     constructor(props, context) {
@@ -65,28 +80,17 @@ class Login extends Component {
             <div className="login">
               <Grid style={ { marginTop: 50 } }>
                 <Row>
-                  <Col>
-                  <h2>Tennis With Me</h2>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                  <TextField name="username" value={ this.state.loginInfo.username } floatingLabelText="Username" onChange={ this.fieldValueChange } fullWidth={ true } />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                  <TextField name="password" type="password" value={ this.state.loginInfo.password } floatingLabelText="Password" onChange={ this.fieldValueChange } fullWidth={ true } />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                  <RaisedButton label="Log In" primary={ true } onClick={ this.logIn } />
+                  <Col sm={ 12 } md={ 6 } mdPush={ 3 } className="loginForm">
+                  <Paper style={ styles.signIn }>
+                    <h2 style={ styles.signIn.title }>Tennis With Me</h2>
+                    <TextField name="username" value={ this.state.loginInfo.username } floatingLabelText="Username" onChange={ this.fieldValueChange } fullWidth={ true } />
+                    <TextField name="password" type="password" value={ this.state.loginInfo.password } floatingLabelText="Password" onChange={ this.fieldValueChange } fullWidth={ true }
+                    />
+                    <RaisedButton style={ styles.loginButton } label="Log In" primary={ true } onClick={ this.logIn } />
+                  </Paper>
                   </Col>
                 </Row>
               </Grid>
-              <Paper>
-              </Paper>
             </div>
             );
     }
