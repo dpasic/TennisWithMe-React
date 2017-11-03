@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import AccountBox from 'material-ui/svg-icons/action/account-box';
 import CompareArrows from 'material-ui/svg-icons/action/compare-arrows';
+import List from 'material-ui/svg-icons/action/list';
 import Input from 'material-ui/svg-icons/action/input';
 
 import Net from '../../common/Net';
@@ -13,6 +14,7 @@ import Token from '../../common/Token';
 
 import Profile from '../profile/Profile';
 import HeadToHead from '../head_to_head/HeadToHead';
+import Leaderboards from '../leaderboards/Leaderboards';
 
 class Home extends Component {
 
@@ -31,6 +33,7 @@ class Home extends Component {
         this.onRequestChangeDrawer = this.onRequestChangeDrawer.bind(this);
         this.openProfilePage = this.openProfilePage.bind(this);
         this.openHeadToHeadPage = this.openHeadToHeadPage.bind(this);
+        this.openLeaderboards = this.openLeaderboards.bind(this);
         this.logOut = this.logOut.bind(this);
     }
 
@@ -58,6 +61,14 @@ class Home extends Component {
         this.setState({
             currentPage: 'headToHead',
             currentPageCaption: 'Head to Head',
+            drawerOpen: false
+        });
+    }
+
+    openLeaderboards() {
+        this.setState({
+            currentPage: 'leaderboards',
+            currentPageCaption: 'Leaderboards',
             drawerOpen: false
         });
     }
@@ -95,6 +106,8 @@ class Home extends Component {
             content = <Profile />;
         } else if (this.state.currentPage === 'headToHead') {
             content = <HeadToHead />;
+        } else if (this.state.currentPage === 'leaderboards') {
+            content = <Leaderboards />;
         }
 
         return (
@@ -104,6 +117,7 @@ class Home extends Component {
               <Drawer docked={ false } open={ this.state.drawerOpen } onRequestChange={ this.onRequestChangeDrawer }>
                 <MenuItem leftIcon={ <AccountBox /> } primaryText="Profile" onClick={ this.openProfilePage } />
                 <MenuItem leftIcon={ <CompareArrows /> } primaryText="Head to Head" onClick={ this.openHeadToHeadPage } />
+                <MenuItem leftIcon={ <List /> } primaryText="Leaderboards" onClick={ this.openLeaderboards } />
                 <Divider />
                 <MenuItem leftIcon={ <Input /> } primaryText="Log Out" onClick={ this.logOut } />
               </Drawer>
