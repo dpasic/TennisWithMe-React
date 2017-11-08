@@ -26,7 +26,7 @@ class PlayerInfoCard extends Component {
             <div style={ { margin: 5 } } className="player_info_card">
               <Card style={ { height: 190 } }>
                 <CardHeader title={ player.FullName } subtitle={ player.Email } avatar={ avatar } />
-                <CardTitle title={ player.Skill } titleStyle={ { fontSize: 15 } } subtitle={ player.City } />
+                <CardTitle title={ player.SkillDescription } titleStyle={ { fontSize: 15 } } subtitle={ player.City } />
               </Card>
             </div>
             );

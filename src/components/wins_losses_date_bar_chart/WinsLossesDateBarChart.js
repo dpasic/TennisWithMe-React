@@ -17,8 +17,9 @@ class WinsLossesDateBarChart extends Component {
     }
 
     componentWillReceiveProps(props) {
+        // take first 10 games (recent games)
         this.setState({
-            barData: props.barData
+            barData: props.barData.slice(0, 10)
         });
     }
 
@@ -49,7 +50,7 @@ class WinsLossesDateBarChart extends Component {
               <Paper>
                 <ResponsiveContainer width="100%" height={ 200 }>
                   <BarChart data={ this.state.barData }>
-                    <Bar dataKey="value" name="Wins/Losses by date">
+                    <Bar dataKey="value" name="Wins/Losses by date (recent games)">
                       { this.state.barData.map((item, index) => <Cell key={ index } fill={ item.color } />) }
                     </Bar>
                     { legend }
