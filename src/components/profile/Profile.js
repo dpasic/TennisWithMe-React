@@ -8,6 +8,7 @@ import Net from '../../common/Net';
 import Colors from '../../common/Colors';
 
 import PlayerInfoCard from '../player_info_card/PlayerInfoCard';
+import PlayerBadgesCard from '../player_badges_card/PlayerBadgesCard';
 import WinsLossesOverallPieChart from '../wins_losses_overall_pie_chart/WinsLossesOverallPieChart';
 import WinsLossesDateBarChart from '../wins_losses_date_bar_chart/WinsLossesDateBarChart';
 import MatchCard from '../match_card/MatchCard';
@@ -45,6 +46,7 @@ class Profile extends Component {
                 var matches = [];
                 activeMatches.forEach(function(match) {
                     var matchItem = {
+                        id: match.Id,
                         date: moment(match.TimestampPlayed).format('DD/MM/YY'),
                         fullTime: moment(match.TimestampPlayed).format('DD.MM.YYYY. HH:mm'),
                         opponentName: (match.ChallengerId === player.Id) ? match.OpponentName : match.ChallengerName,
@@ -83,10 +85,13 @@ class Profile extends Component {
                   <PlayerInfoCard player={ this.state.player } />
                   </Col>
                   <Col sm={ 12 } md={ 3 }>
+                  <PlayerBadgesCard player={ this.state.player } />
+                  </Col>
+                  <Col sm={ 12 } md={ 3 }>
                   <WinsLossesOverallPieChart pieData={ this.state.pieData } />
                   </Col>
                 </Row>
-                <Row style={ { marginTop: 10 } }>
+                <Row style={ { marginTop: 40 } }>
                   <Col md={ 12 }>
                   <WinsLossesDateBarChart barData={ this.state.matches } />
                   </Col>
@@ -98,10 +103,10 @@ class Profile extends Component {
                 </Row>
                 <Row>
                   <Col sm={ 12 } md={ 6 }>
-                  { this.state.matches.filter((match, index) => index % 2 === 0).map((match, index) => <MatchCard key={ index } match={ match } />) }
+                  { this.state.matches.filter((match, index) => index % 2 === 0).map((match) => <MatchCard key={ match.id } match={ match } />) }
                   </Col>
                   <Col sm={ 12 } md={ 6 }>
-                  { this.state.matches.filter((match, index) => index % 2 === 1).map((match, index) => <MatchCard key={ index } match={ match } />) }
+                  { this.state.matches.filter((match, index) => index % 2 === 1).map((match) => <MatchCard key={ match.id } match={ match } />) }
                   </Col>
                 </Row>
               </Grid>

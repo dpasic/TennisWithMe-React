@@ -19,7 +19,7 @@ class WinsLossesDateBarChart extends Component {
     componentWillReceiveProps(props) {
         // take first 10 games (recent games)
         this.setState({
-            barData: props.barData.slice(0, 10)
+            barData: props.barData.slice(0, 10).reverse()
         });
     }
 

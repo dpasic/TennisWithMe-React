@@ -10,6 +10,7 @@ import Net from '../../common/Net';
 import Colors from '../../common/Colors';
 
 import PlayerInfoCard from '../player_info_card/PlayerInfoCard';
+import PlayerBadgesCard from '../player_badges_card/PlayerBadgesCard';
 import WinsLossesOverallPieChart from '../wins_losses_overall_pie_chart/WinsLossesOverallPieChart';
 import WinsLossesDateBarChart from '../wins_losses_date_bar_chart/WinsLossesDateBarChart';
 import MatchCard from '../match_card/MatchCard';
@@ -46,6 +47,7 @@ class HeadToHead extends Component {
 
             activeMatches.forEach(function(match) {
                 var matchItem = {
+                    id: match.Id,
                     date: moment(match.TimestampPlayed).format('DD/MM/YY'),
                     fullTime: moment(match.TimestampPlayed).format('DD.MM.YYYY. HH:mm'),
                     opponentName: (match.ChallengerId === profilePlayer.Id) ? match.OpponentName : match.ChallengerName,
@@ -102,12 +104,14 @@ class HeadToHead extends Component {
 
     render() {
         var playerInfoCard = null,
+            playerBadgesCard = null,
             winsLossesOverallPieChart = null,
             winsLossesDateBarChart = null,
             matchesCaption = null;
 
         if (this.state.selectedFriendId != null) {
             playerInfoCard = <PlayerInfoCard player={ this.state.selectedFriend } />;
+            playerBadgesCard = <PlayerBadgesCard player={ this.state.selectedFriend } />;
             winsLossesOverallPieChart = <WinsLossesOverallPieChart pieData={ this.state.pieData } />;
             winsLossesDateBarChart = <WinsLossesDateBarChart barData={ this.state.matches } />;
             matchesCaption = <h4 style={ { color: '#8D8D8D' } }>Matches</h4>;
@@ -128,10 +132,13 @@ class HeadToHead extends Component {
                   { playerInfoCard }
                   </Col>
                   <Col sm={ 12 } md={ 3 }>
+                  { playerBadgesCard }
+                  </Col>
+                  <Col sm={ 12 } md={ 3 }>
                   { winsLossesOverallPieChart }
                   </Col>
                 </Row>
-                <Row style={ { marginTop: 10 } }>
+                <Row style={ { marginTop: 40 } }>
                   <Col md={ 12 }>
                   { winsLossesDateBarChart }
                   </Col>
@@ -143,10 +150,10 @@ class HeadToHead extends Component {
                 </Row>
                 <Row>
                   <Col sm={ 12 } md={ 6 }>
-                  { this.state.matches.filter((match, index) => index % 2 === 0).map((match, index) => <MatchCard key={ index } match={ match } />) }
+                  { this.state.matches.filter((match, index) => index % 2 === 0).map((match) => <MatchCard key={ match.id } match={ match } />) }
                   </Col>
                   <Col sm={ 12 } md={ 6 }>
-                  { this.state.matches.filter((match, index) => index % 2 === 1).map((match, index) => <MatchCard key={ index } match={ match } />) }
+                  { this.state.matches.filter((match, index) => index % 2 === 1).map((match) => <MatchCard key={ match.id } match={ match } />) }
                   </Col>
                 </Row>
               </Grid>
