@@ -48,7 +48,7 @@ class Profile extends Component {
                     var matchItem = {
                         id: match.Id,
                         date: moment(match.TimestampPlayed).format('DD/MM/YY'),
-                        fullTime: moment(match.TimestampPlayed).format('DD.MM.YYYY. HH:mm'),
+                        fullTime: moment(match.TimestampPlayed).format('DD/MM/YYYY HH:mm'),
                         opponentName: (match.ChallengerId === player.Id) ? match.OpponentName : match.ChallengerName,
                         winnerName: match.WinnerName,
                         result: match.Result,
@@ -85,10 +85,10 @@ class Profile extends Component {
                   <PlayerInfoCard player={ this.state.player } />
                   </Col>
                   <Col sm={ 12 } md={ 3 }>
-                  <PlayerBadgesCard player={ this.state.player } />
+                  <PlayerBadgesCard header="My Badges" player={ this.state.player } />
                   </Col>
                   <Col sm={ 12 } md={ 3 }>
-                  <WinsLossesOverallPieChart pieData={ this.state.pieData } />
+                  <WinsLossesOverallPieChart header="Overall" pieData={ this.state.pieData } />
                   </Col>
                 </Row>
                 <Row style={ { marginTop: 40 } }>

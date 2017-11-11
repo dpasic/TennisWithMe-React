@@ -1,25 +1,26 @@
 {
-  "name": "tennis-with-me",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "axios": "^0.16.2",
-    "material-ui": "^0.19.4",
-    "moment": "^2.19.1",
-    "prop-types": "^15.6.0",
-    "react": "^16.0.0",
-    "react-bootstrap": "^0.31.3",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14",
-    "recharts": "^1.0.0-alpha.6"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "name": "tennis-with-me",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.16.2",
+        "material-ui": "^0.19.4",
+        "moment": "^2.19.1",
+        "prop-types": "^15.6.0",
+        "react": "^16.0.0",
+        "react-bootstrap": "^0.31.3",
+        "react-dom": "^16.0.0",
+        "react-redux": "^5.0.6",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "react-scripts": "1.0.14",
+        "react-tooltip": "^3.4.0",
+        "recharts": "^1.0.0-alpha.6"
+    },
+    "scripts": {
+        "start": "set PORT=3000 && react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    }
 }

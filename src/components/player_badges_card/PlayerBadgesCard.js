@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Paper from 'material-ui/Paper';
+import ReactTooltip from 'react-tooltip'
 
 import favoritePlayerBadge from '../../assets/favorite-player-badge.png';
 
@@ -27,13 +28,15 @@ class PlayerBadgesCard extends Component {
         super(props, context);
 
         this.state = {
-            player: {}
+            player: {},
+            header: null
         };
     }
 
     componentWillReceiveProps(props) {
         this.setState({
-            player: props.player
+            player: props.player,
+            header: props.header
         });
     }
 
@@ -41,7 +44,9 @@ class PlayerBadgesCard extends Component {
         var player = this.state.player,
             favoritePlayer = null,
             points = null,
-            wins = null;
+            pointsTooltip = 'Points Badge',
+            wins = null,
+            winsTooltip = 'Wins Badge';
 
         // favorite player badge
         if (player.IsFavoritePlayer) {
@@ -51,42 +56,55 @@ class PlayerBadgesCard extends Component {
         // points badge
         if (player.HasPlatinumBadge) {
             points = platinumBadge;
+            pointsTooltip = 'Points (Platinum Badge)';
         } else if (player.HasGoldBadge) {
             points = goldBadge;
+            pointsTooltip = 'Points (Gold Badge)';
         } else if (player.HasSilverBadge) {
             points = silverBadge;
+            pointsTooltip = 'Points (Silver Badge)';
         } else if (player.HasBronzeBadge) {
             points = bronzeBadge;
+            pointsTooltip = 'Points (Bronze Badge)';
         }
 
         // wins badge
         if (player.HasWinnerMasterBadge) {
             wins = winnerMasterBadge;
+            winsTooltip = 'Wins (Master Badge)';
         } else if (player.HasWinnerChallengerBadge) {
             wins = winnerChallengerBadge;
+            winsTooltip = 'Wins (Challenger Badge)';
         } else if (player.HasWinnerRookieBadge) {
             wins = winnerRookieBadge;
+            winsTooltip = 'Wins (Rookie Badge)';
         }
 
-        // koristi 'react-tooltip'
         return (
             <div style={ { margin: 5 } } className="player_badges_card">
-              <Paper style={ { height: 190 } }>
+              <Paper>
                 <Row style={ { margin: 10 } }>
                   <Col md={ 12 }>
-                  <h4 style={ { color: '#8D8D8D' } }>Badges</h4>
+                  <h4 style={ { color: '#8D8D8D' } }>{ this.state.header }</h4>
                   </Col>
                 </Row>
-                <Row>
+                <Row style={ { height: 180 } }>
                   <Col xs={ 4 }>
-                  <img src={ favoritePlayer } alt="Favorite Player" className="img-responsive" style={ styles.badgeImg } />
+                  <img src={ favoritePlayer } data-tip data-for="favoritePlayerTooltip" alt="Favorite Player Badge" className="img-responsive" style={ styles.badgeImg } />
                   </Col>
+                  <ReactTooltip id='favoritePlayerTooltip' place='bottom' type='light' effect='solid'>Favorite Player Badge</ReactTooltip>
                   <Col xs={ 4 }>
-                  <img src={ points } alt="Points" className="img-responsive" style={ styles.badgeImg } />
+                  <img src={ points } data-tip data-for="pointsTooltip" alt="Points Badge" className="img-responsive" style={ styles.badgeImg } />
                   </Col>
+                  <ReactTooltip id='pointsTooltip' place='bottom' type='light' effect='solid'>
+                    { pointsTooltip }
+                  </ReactTooltip>
                   <Col xs={ 4 }>
-                  <img src={ wins } alt="Wins" className="img-responsive" style={ styles.badgeImg } />
+                  <img src={ wins } data-tip data-for="winsTooltip" alt="Wins Badge" className="img-responsive" style={ styles.badgeImg } />
                   </Col>
+                  <ReactTooltip id='winsTooltip' place='bottom' type='light' effect='solid'>
+                    { winsTooltip }
+                  </ReactTooltip>
                 </Row>
               </Paper>
             </div>

@@ -22,6 +22,22 @@ class App extends Component {
         };
     }
 
+    /*
+    this.props.childRoutes.map(route => (
+   <MenuItem
+     key={route.path}
+     style={
+       this.props.router.isActive(route.path) ? {
+         ...styles.item,
+         ...styles.active,
+       } : styles.item
+     }
+     onTouchTap={e => this.handleNavigate(e, route.path)}
+   >
+      { route.title }
+  </MenuItem>
+));
+    */
     render() {
         return (
             <Router>

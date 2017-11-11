@@ -49,7 +49,7 @@ class HeadToHead extends Component {
                 var matchItem = {
                     id: match.Id,
                     date: moment(match.TimestampPlayed).format('DD/MM/YY'),
-                    fullTime: moment(match.TimestampPlayed).format('DD.MM.YYYY. HH:mm'),
+                    fullTime: moment(match.TimestampPlayed).format('DD/MM/YYYY HH:mm'),
                     opponentName: (match.ChallengerId === profilePlayer.Id) ? match.OpponentName : match.ChallengerName,
                     winnerName: match.WinnerName,
                     result: match.Result,
@@ -107,12 +107,14 @@ class HeadToHead extends Component {
             playerBadgesCard = null,
             winsLossesOverallPieChart = null,
             winsLossesDateBarChart = null,
-            matchesCaption = null;
+            matchesCaption = null,
+            playerBadgesCardHeader = `${this.state.selectedFriend.FirstName}'s Badges`,
+            winsLossesOverallPieChartHeader = `vs. ${this.state.selectedFriend.FullName}`;
 
         if (this.state.selectedFriendId != null) {
             playerInfoCard = <PlayerInfoCard player={ this.state.selectedFriend } />;
-            playerBadgesCard = <PlayerBadgesCard player={ this.state.selectedFriend } />;
-            winsLossesOverallPieChart = <WinsLossesOverallPieChart pieData={ this.state.pieData } />;
+            playerBadgesCard = <PlayerBadgesCard header={ playerBadgesCardHeader } player={ this.state.selectedFriend } />;
+            winsLossesOverallPieChart = <WinsLossesOverallPieChart header={ winsLossesOverallPieChartHeader } pieData={ this.state.pieData } />;
             winsLossesDateBarChart = <WinsLossesDateBarChart barData={ this.state.matches } />;
             matchesCaption = <h4 style={ { color: '#8D8D8D' } }>Matches</h4>;
         }

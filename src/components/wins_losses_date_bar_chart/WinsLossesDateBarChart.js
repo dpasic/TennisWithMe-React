@@ -4,6 +4,14 @@ import Paper from 'material-ui/Paper';
 
 import Colors from '../../common/Colors';
 
+const styles = {
+    tooltipItem: {
+        label: {
+            color: '#8D8D8D'
+        }
+    }
+};
+
 class WinsLossesDateBarChart extends Component {
 
     constructor(props, context) {
@@ -29,11 +37,13 @@ class WinsLossesDateBarChart extends Component {
 
             return (
                 <div className="wins_losses_date_bar_chart_tooltip">
-                  <p>Opponent: <span>{ payload.opponentName }</span></p>
-                  <p>Winner: <span>{ payload.winnerName }</span></p>
-                  <p>Result: <span>{ payload.result }</span></p>
-                  <p>Played: <span>{ payload.fullTime }</span></p>
-                  <p>At: <span>{ payload.city }</span></p>
+                  <Paper style={ { padding: 5 } }>
+                    <p><span style={ styles.tooltipItem.label }>Opponent:</span> <span>{ payload.opponentName }</span></p>
+                    <p><span style={ styles.tooltipItem.label }>Winner:</span> <span>{ payload.winnerName }</span></p>
+                    <p><span style={ styles.tooltipItem.label }>Result:</span> <span>{ payload.result }</span></p>
+                    <p><span style={ styles.tooltipItem.label }>Played:</span> <span>{ payload.fullTime }</span></p>
+                    <p><span style={ styles.tooltipItem.label }>At:</span> <span>{ payload.city }</span></p>
+                  </Paper>
                 </div>
                 );
         }

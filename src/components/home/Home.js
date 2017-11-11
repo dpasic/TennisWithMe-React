@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import AccountBox from 'material-ui/svg-icons/action/account-box';
 import CompareArrows from 'material-ui/svg-icons/action/compare-arrows';
 import List from 'material-ui/svg-icons/action/list';
@@ -15,6 +14,17 @@ import Token from '../../common/Token';
 import Profile from '../profile/Profile';
 import HeadToHead from '../head_to_head/HeadToHead';
 import Leaderboards from '../leaderboards/Leaderboards';
+
+const styles = {
+    menuItem: {
+        selected: {
+            backgroundColor: '#E8E8E8'
+        },
+        default: {
+            backgroundColor: '#FFFFFF'
+        }
+    }
+};
 
 class Home extends Component {
 
@@ -113,12 +123,17 @@ class Home extends Component {
         return (
             <div className="home">
               { /* Navigation */ }
-              <AppBar onLeftIconButtonTouchTap={ this.toggleDrawer } title={ this.state.currentPageCaption } />
+              <div>
+                <AppBar style={ { position: 'fixed' } } onLeftIconButtonTouchTap={ this.toggleDrawer } title={ this.state.currentPageCaption } />
+                <div style={ { paddingTop: 64 } } />
+              </div>
               <Drawer docked={ false } open={ this.state.drawerOpen } onRequestChange={ this.onRequestChangeDrawer }>
-                <MenuItem leftIcon={ <AccountBox /> } primaryText="Profile" onClick={ this.openProfilePage } />
-                <MenuItem leftIcon={ <CompareArrows /> } primaryText="Head to Head" onClick={ this.openHeadToHeadPage } />
-                <MenuItem leftIcon={ <List /> } primaryText="Leaderboards" onClick={ this.openLeaderboards } />
-                <Divider />
+                <AppBar showMenuIconButton={ false } title="Tennis With Me" />
+                <MenuItem style={ this.state.currentPage === 'profile' ? styles.menuItem.selected : styles.menuItem.default } leftIcon={ <AccountBox /> } primaryText="Profile" onClick={ this.openProfilePage } />
+                <MenuItem style={ this.state.currentPage === 'headToHead' ? styles.menuItem.selected : styles.menuItem.default } leftIcon={ <CompareArrows /> } primaryText="Head to Head" onClick={ this.openHeadToHeadPage } />
+                <MenuItem style={ this.state.currentPage === 'leaderboards' ? styles.menuItem.selected : styles.menuItem.default } leftIcon={ <List /> } primaryText="Leaderboards" onClick={ this.openLeaderboards } />
+                { /* Divider component */ }
+                <hr style={ { margin: '-1px 0px 0px', height: 1, backgroundColor: 'rgb(224, 224, 224)' } } />
                 <MenuItem leftIcon={ <Input /> } primaryText="Log Out" onClick={ this.logOut } />
               </Drawer>
               { /* Content */ }

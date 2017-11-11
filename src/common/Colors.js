@@ -13,7 +13,7 @@ class Colors {
     }
 
     static get orange() {
-        return '#FF9800';
+        return '#EDA053';
     }
 }
 
