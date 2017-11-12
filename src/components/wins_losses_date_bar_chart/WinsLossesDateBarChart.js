@@ -58,7 +58,7 @@ class WinsLossesDateBarChart extends Component {
         return (
             <div style={ { margin: 5 } } className="wins_losses_date_bar_chart">
               <Paper>
-                <ResponsiveContainer width="100%" height={ 200 }>
+                <ResponsiveContainer width="100%" height={ 180 }>
                   <BarChart data={ this.state.barData }>
                     <Bar dataKey="value" name="Wins/Losses by date (recent games)">
                       { this.state.barData.map((item, index) => <Cell key={ index } fill={ item.color } />) }
